@@ -1,32 +1,23 @@
-// Online C++ compiler to run C++ program online
 #include <iostream>
+#include <climits> // Required for INT_MAX and INT_MIN
+#include <algorithm> // Required for std::min and std::max
+
 using namespace std;
 
-
-int fact(int n){
-   int  fact=1;
-    for(int i=1;i<=n;i++){
-        fact=fact*i;
-    }
-    return fact;
-    
-}
-
-int ncr(int n,int r){
-    int fact_n=fact(n);
-    int fact_r=fact(r);
-    int fact_nmr=fact(n-r);
-    
- return fact_n/(fact_r*fact_nmr);
-    
-}
-
-
 int main() {
- int n=8,r=2;
- cout<<ncr(n,r);
+    int marks[] = {1, 23, -34, 5, 4, 2, -9};
+    int size = 7;
     
-    // Write C++ code here
+    int smallest = INT_MAX;
+    int largest = INT_MIN;
+    
+    for (int i = 0; i < size; i++) {
+        smallest = min(marks[i], smallest); // Update existing variable
+        largest = max(marks[i], largest);   // Update existing variable
+    }
+    
+    cout << "largest = " << largest << endl;
+    cout << "smallest = " << smallest << endl;
     
     return 0;
 }
