@@ -1,33 +1,49 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Node {
 public:
-    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
-        if(head1==NULL || head2==NULL){
-            if(head1==NULL){
-                return head2;
-            }else{
-                return head1;
-            }
+    int data;
+    Node* left;
+    Node* right;
 
-        }
-
-        if(head1->val <= head2->val){
-            head1->next=  mergeTwoLists(head1->next,head2);
-            return head1;
-
-        }else{
-            head2->next= mergeTwoLists(head1,head2->next);
-            return head2;
-        }
-        
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
     }
 };
+
+void levelOrder(Node* root) {
+    if (root == nullptr)
+        return;
+
+    queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        Node* current = q.front();
+        q.pop();
+
+        cout << current->data << " ";
+
+        if (current->left != nullptr)
+            q.push(current->left);
+
+        if (current->right != nullptr)
+            q.push(current->right);
+    }
+}
+
+int main() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->left = new Node(6);
+
+    levelOrder(root);
+
+    return 0;
+}
