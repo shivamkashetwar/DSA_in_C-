@@ -1,32 +1,57 @@
-class Solution {
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Node {
 public:
-    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-        int totgas=0 , totcost=0;
+    int data;
+    Node* left;
+    Node* right;
 
-        for(int val : gas){
-            totgas+= val;
-        }
-
-        for(int val: cost){
-            totcost+= val;
-
-        }
-
-        if(totgas < totcost){
-            return -1;
-        }
-        int start=0,currgas=0;
-
-        for(int i=0;i<gas.size();i++){
-            currgas+= (gas[i] - cost[i]);
-            if(currgas < 0){
-                start=i+1;
-                currgas=0;
-
-            }
-        }
-
-        return start;
-
+    Node(int val) {
+        data = val;
+        left = right = NULL;
     }
 };
+
+int idx = -1;
+
+Node* buildTree(vector<int>& preorder) {
+    idx++;
+
+    if (preorder[idx] == -1) {
+        return NULL;
+    }
+
+    Node* root = new Node(preorder[idx]);
+
+    root->left = buildTree(preorder);
+    root->right = buildTree(preorder);
+
+    return root;
+}
+
+int count(Node* root) {
+    if (root == NULL) {
+        return 0;
+    }
+
+    int leftHeight = count(root->left);
+    int rightHeight = count(root->right);
+
+    return leftHeight, rightHeight + 1;
+}
+
+int main() {
+    vector<int> preorder = {
+        1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1
+    };
+
+    Node* root = buildTree(preorder);
+
+    cout << "Height: " << count(root) << endl;
+
+    return 0;
+}
+
